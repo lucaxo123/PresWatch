@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:16-alpine:///preswatch
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+jwt:
+  secret: test-secret-key-must-be-at-least-256-bits-long-for-hmac-sha
+  expiration-ms: 3600000
