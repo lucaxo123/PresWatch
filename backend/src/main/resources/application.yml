@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: preswatch-backend
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/preswatch}
+    username: ${SPRING_DATASOURCE_USERNAME:preswatch}
+    password: ${SPRING_DATASOURCE_PASSWORD:preswatch}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+jwt:
+  secret: ${JWT_SECRET:dev-secret-key-change-in-production-must-be-long-enough}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always

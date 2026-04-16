@@ -1,0 +1,31 @@
+import type { HTMLAttributes } from 'react'
+
+interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
+  width?: string | number
+  height?: string | number
+  rounded?: 'sm' | 'md' | 'lg' | 'full'
+}
+
+const roundedMap = {
+  sm: 'rounded',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  full: 'rounded-full',
+} as const
+
+export const Skeleton = ({
+  width,
+  height,
+  rounded = 'md',
+  className = '',
+  style,
+  ...props
+}: SkeletonProps) => {
+  return (
+    <div
+      className={`bg-surface-muted animate-pulse ${roundedMap[rounded]} ${className}`}
+      style={{ width, height, ...style }}
+      {...props}
+    />
+  )
+}
