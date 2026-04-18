@@ -4,6 +4,7 @@ import { AppLayout } from './components/layout/AppLayout'
 import { AuthPage } from './pages/AuthPage'
 import { OverviewPage } from './pages/OverviewPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { CalendarPage } from './pages/CalendarPage'
 import { Toaster } from './components/ui/Toaster'
 import { useSessionManager } from './hooks/useSessionManager'
 import type { ReactNode } from 'react'
@@ -31,6 +32,7 @@ export default function App() {
         >
           <Route index element={<Navigate to="resumen" replace />} />
           <Route path="resumen" element={<OverviewPage />} />
+          <Route path="calendario" element={<CalendarPage />} />
           <Route path="estadisticas" element={<DashboardPage />} />
         </Route>
       </Routes>

@@ -23,11 +23,8 @@ public class AuthService {
         String email = request.email().trim().toLowerCase();
         String username = request.username().trim();
 
-        if (userRepository.existsByEmail(email)) {
-            throw new BadRequestException("El email ya está en uso");
-        }
-        if (userRepository.existsByUsername(username)) {
-            throw new BadRequestException("El nombre de usuario ya está en uso");
+        if (userRepository.existsByEmail(email) || userRepository.existsByUsername(username)) {
+            throw new BadRequestException("El email o nombre de usuario ya está en uso");
         }
 
         User user = User.builder()
