@@ -73,3 +73,23 @@ export interface ExpenseFilters {
   week?: string
   page?: number
 }
+
+export interface Subscription {
+  id: number
+  name: string
+  amount: number
+  billingDay: number
+  active: boolean
+  startDate: string
+  endDate: string | null
+  category: Category | null
+  createdAt: string
+}
+
+export interface CalendarDay {
+  date: string
+  expenses: Expense[]
+  subscriptions: Subscription[]
+}
+
+export type CalendarData = Record<string, CalendarDay>

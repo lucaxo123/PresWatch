@@ -1,7 +1,6 @@
-package com.preswatch.expense;
+package com.preswatch.subscription;
 
 import com.preswatch.category.Category;
-import com.preswatch.subscription.Subscription;
 import com.preswatch.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,13 +10,13 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "expenses")
+@Table(name = "subscriptions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Expense {
+public class Subscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,18 +30,24 @@ public class Expense {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
 
-    @Column(length = 500)
-    private String description;
+    @Column(name = "billing_day", nullable = false)
+    private int billingDay;
 
-    @Column(name = "expense_date", nullable = false)
-    private LocalDate expenseDate;
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean active = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subscription_id")
-    private Subscription subscription;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;

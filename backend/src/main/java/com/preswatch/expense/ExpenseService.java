@@ -69,7 +69,8 @@ public class ExpenseService {
         expense.setExpenseDate(request.expenseDate());
 
         if (request.categoryId() != null) {
-            Category category = categoryRepository.findById(request.categoryId())
+            Long userId = SecurityUtils.getCurrentUserId();
+            Category category = categoryRepository.findByIdVisibleToUser(request.categoryId(), userId)
                     .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
             expense.setCategory(category);
         } else {

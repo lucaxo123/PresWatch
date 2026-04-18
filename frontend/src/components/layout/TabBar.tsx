@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, BarChart3 } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, BarChart3 } from 'lucide-react'
 
 const tabs = [
   { to: '/app/resumen', label: 'Resumen', Icon: LayoutDashboard },
+  { to: '/app/calendario', label: 'Calendario', Icon: CalendarDays },
   { to: '/app/estadisticas', label: 'Estadísticas', Icon: BarChart3 },
 ]
 

@@ -2,6 +2,7 @@ package com.preswatch.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -51,6 +52,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+        String message = ex.getConstraintViolations().stream()
+                .map(v -> v.getMessage())
+                .findFirst()
+                .orElse("Parámetro inválido");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("BAD_REQUEST", message, 400));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleUnreadable(HttpMessageNotReadableException ex) {
         log.warn("Malformed request body: {}", ex.getMessage());
@@ -62,9 +73,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
         log.error("Unhandled exception: {}", ex.getMessage(), ex);
-        String detail = ex.getClass().getSimpleName() + ": " + (ex.getMessage() != null ? ex.getMessage() : "sin detalle");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("INTERNAL_ERROR", detail, 500));
+                .body(new ErrorResponse("INTERNAL_ERROR", "Error inesperado del servidor", 500));
     }
 
     public record ErrorResponse(String error, String message, int status) {}
