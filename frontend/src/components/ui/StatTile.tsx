@@ -24,7 +24,7 @@ export const StatTile = ({ label, value, hint, icon, tone = 'default' }: StatTil
         </span>
         {icon && <span className="text-content-muted shrink-0">{icon}</span>}
       </div>
-      <div className={`text-2xl font-semibold tabular-nums break-words ${toneMap[tone]}`}>
+      <div className={`text-xl font-semibold tabular-nums break-words ${toneMap[tone]}`}>
         {value}
       </div>
       {hint && <span className="text-xs text-content-muted">{hint}</span>}
