@@ -5,6 +5,7 @@ interface DayCellProps {
   isSelected: boolean
   hasExpenses: boolean
   hasSubscriptions: boolean
+  hasDebts: boolean
   onClick: () => void
 }
 
@@ -15,6 +16,7 @@ export const DayCell = ({
   isSelected,
   hasExpenses,
   hasSubscriptions,
+  hasDebts,
   onClick,
 }: DayCellProps) => {
   return (
@@ -31,7 +33,7 @@ export const DayCell = ({
       `}
     >
       <span>{day}</span>
-      {(hasExpenses || hasSubscriptions) && (
+      {(hasExpenses || hasSubscriptions || hasDebts) && (
         <div className="flex items-center gap-1">
           {hasExpenses && (
             <span
@@ -44,6 +46,13 @@ export const DayCell = ({
             <span
               className={`w-1.5 h-1.5 rounded-full ${
                 isSelected ? 'bg-accent-contrast/70' : 'bg-success'
+              }`}
+            />
+          )}
+          {hasDebts && (
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                isSelected ? 'bg-accent-contrast/70' : 'bg-warning'
               }`}
             />
           )}

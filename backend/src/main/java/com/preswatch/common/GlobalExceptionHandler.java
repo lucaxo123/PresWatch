@@ -65,9 +65,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleUnreadable(HttpMessageNotReadableException ex) {
         log.warn("Malformed request body: {}", ex.getMessage());
-        String rootMsg = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse("BAD_REQUEST", "Cuerpo de la solicitud inválido: " + rootMsg, 400));
+                .body(new ErrorResponse("BAD_REQUEST", "El cuerpo de la solicitud no tiene un formato válido", 400));
     }
 
     @ExceptionHandler(Exception.class)

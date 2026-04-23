@@ -1,6 +1,7 @@
 package com.preswatch.expense;
 
 import com.preswatch.category.Category;
+import com.preswatch.debt.Debt;
 import com.preswatch.subscription.Subscription;
 import com.preswatch.user.User;
 import jakarta.persistence.*;
@@ -43,6 +44,10 @@ public class Expense {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_id")
     private Subscription subscription;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "debt_id")
+    private Debt debt;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
