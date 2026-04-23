@@ -88,6 +88,7 @@ export const CalendarGrid = ({
               isSelected={cell.dateStr === selectedDate}
               hasExpenses={(dayData?.expenses.length ?? 0) > 0}
               hasSubscriptions={(dayData?.subscriptions.length ?? 0) > 0}
+              hasDebts={(dayData?.debts?.length ?? 0) > 0}
               onClick={() => onSelectDate(cell.dateStr)}
             />
           )
