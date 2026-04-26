@@ -43,10 +43,17 @@ export const DashboardPage = () => {
       </div>
 
       {statsLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} height={92} rounded="lg" />
-          ))}
+        <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <Skeleton key={i} height={92} rounded="lg" />
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <Skeleton key={i + 2} height={92} rounded="lg" />
+            ))}
+          </div>
         </div>
       ) : !hasData ? (
         <EmptyState
@@ -56,30 +63,34 @@ export const DashboardPage = () => {
         />
       ) : (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <StatTile
-              label="Total gastado"
-              value={`$${formatCurrency(stats.totalSpent)}`}
-              icon={<Wallet size={14} />}
-            />
-            <StatTile
-              label="Promedio por día"
-              value={`$${formatCurrency(avgPerDay)}`}
-              icon={<TrendingUp size={14} />}
-            />
-            <StatTile
-              label="Top categoría"
-              value={topCategory ? topCategory.categoryName : '—'}
-              hint={topCategory ? `$${formatCurrency(topCategory.amount)}` : undefined}
-              icon={<Trophy size={14} />}
-            />
-            <StatTile
-              label="Presupuesto usado"
-              value={budget ? `${budgetUsedPct.toFixed(0)}%` : '—'}
-              hint={budget ? (overBudget ? 'Excedido' : 'En control') : 'Sin definir'}
-              tone={overBudget ? 'danger' : 'default'}
-              icon={<Target size={14} />}
-            />
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              <StatTile
+                label="Total gastado"
+                value={`$${formatCurrency(stats.totalSpent)}`}
+                icon={<Wallet size={14} />}
+              />
+              <StatTile
+                label="Promedio por día"
+                value={`$${formatCurrency(avgPerDay)}`}
+                icon={<TrendingUp size={14} />}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <StatTile
+                label="Top categoría"
+                value={topCategory ? topCategory.categoryName : '—'}
+                hint={topCategory ? `$${formatCurrency(topCategory.amount)}` : undefined}
+                icon={<Trophy size={14} />}
+              />
+              <StatTile
+                label="Presupuesto usado"
+                value={budget ? `${budgetUsedPct.toFixed(0)}%` : '—'}
+                hint={budget ? (overBudget ? 'Excedido' : 'En control') : 'Sin definir'}
+                tone={overBudget ? 'danger' : 'default'}
+                icon={<Target size={14} />}
+              />
+            </div>
           </div>
 
           <div className="flex justify-center">

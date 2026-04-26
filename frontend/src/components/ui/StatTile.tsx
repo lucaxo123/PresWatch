@@ -19,15 +19,15 @@ export const StatTile = ({ label, value, hint, icon, tone = 'default' }: StatTil
   return (
     <div className="bg-surface-raised border border-line rounded-xl p-4 shadow-card flex flex-col gap-1.5 min-w-0">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium uppercase tracking-wider text-content-muted truncate">
+        <span className="text-xs font-medium uppercase tracking-wider text-content-muted leading-snug">
           {label}
         </span>
         {icon && <span className="text-content-muted shrink-0">{icon}</span>}
       </div>
-      <div className={`text-2xl font-semibold tabular-nums truncate ${toneMap[tone]}`}>
+      <div className={`text-xl font-semibold tabular-nums break-words ${toneMap[tone]}`}>
         {value}
       </div>
-      {hint && <span className="text-xs text-content-muted truncate">{hint}</span>}
+      {hint && <span className="text-xs text-content-muted">{hint}</span>}
     </div>
   )
 }

@@ -73,3 +73,54 @@ export interface ExpenseFilters {
   week?: string
   page?: number
 }
+
+export interface Subscription {
+  id: number
+  name: string
+  amount: number
+  billingDay: number
+  active: boolean
+  startDate: string
+  endDate: string | null
+  category: Category | null
+  createdAt: string
+}
+
+export type DebtDirection = 'OWED_BY_ME' | 'OWED_TO_ME'
+export type DebtType = 'INSTALLMENTS' | 'SINGLE'
+
+export interface Card {
+  id: number
+  bank: string
+  last4: string
+  color: string
+  createdAt: string
+}
+
+export interface Debt {
+  id: number
+  name: string
+  direction: DebtDirection
+  type: DebtType
+  amountPerInstallment: number
+  installmentsTotal: number | null
+  installmentsPaid: number
+  remainingInstallments: number | null
+  totalAmount: number
+  paymentDay: number | null
+  dueDate: string | null
+  startDate: string
+  active: boolean
+  category: Category | null
+  card: Card | null
+  createdAt: string
+}
+
+export interface CalendarDay {
+  date: string
+  expenses: Expense[]
+  subscriptions: Subscription[]
+  debts: Debt[]
+}
+
+export type CalendarData = Record<string, CalendarDay>
