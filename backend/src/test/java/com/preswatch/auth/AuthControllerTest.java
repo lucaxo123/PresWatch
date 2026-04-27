@@ -92,7 +92,8 @@ class AuthControllerTest extends IntegrationTestBase {
         Cookie refreshCookie = loginResult.getResponse().getCookie(AuthService.REFRESH_COOKIE_NAME);
 
         mockMvc.perform(post("/api/auth/logout")
-                        .header("Authorization", "Bearer " + accessToken))
+                        .header("Authorization", "Bearer " + accessToken)
+                        .cookie(refreshCookie))
                 .andExpect(status().isNoContent());
 
         // Refresh should now fail — token was deleted from DB
