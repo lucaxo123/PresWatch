@@ -1,12 +1,19 @@
 import { useState, useRef, useEffect } from 'react'
 import { Wallet, LogOut, ChevronDown } from 'lucide-react'
 import { useAuthStore } from '../../stores/authStore'
+import { logout as apiLogout } from '../../api/auth'
 import { ThemeToggle } from '../ui/ThemeToggle'
 import { MonthSwitcher } from './MonthSwitcher'
 
 export const TopBar = () => {
   const user = useAuthStore((s) => s.user)
-  const logout = useAuthStore((s) => s.logout)
+  const storeLogout = useAuthStore((s) => s.logout)
+
+  const handleLogout = async () => {
+    await apiLogout()
+    storeLogout()
+    window.location.href = '/auth'
+  }
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -69,7 +76,7 @@ export const TopBar = () => {
                     type="button"
                     onClick={() => {
                       setMenuOpen(false)
-                      logout()
+                      void handleLogout()
                     }}
                     className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-content-secondary hover:text-danger hover:bg-surface-muted transition-colors"
                   >
