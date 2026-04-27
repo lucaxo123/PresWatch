@@ -1,4 +1,4 @@
-import client from './client'
+import client, { refreshClient } from './client'
 import type { AuthResponse, User } from '../types'
 
 export const register = async (data: {
@@ -23,7 +23,14 @@ export const getMe = async (): Promise<User> => {
   return res.data
 }
 
-export const refreshToken = async (): Promise<AuthResponse> => {
-  const res = await client.post<AuthResponse>('/auth/refresh')
+// Uses the HttpOnly refresh token cookie — no Bearer token needed
+export const silentRefresh = async (): Promise<AuthResponse> => {
+  const res = await refreshClient.post<AuthResponse>('/auth/refresh')
   return res.data
+}
+
+export const logout = async (): Promise<void> => {
+  await client.post('/auth/logout').catch(() => {
+    // Best-effort — clear client state regardless of server response
+  })
 }
