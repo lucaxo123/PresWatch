@@ -48,7 +48,7 @@ export const LoginForm = ({ onSwitchToRegister, onForgotPassword }: LoginFormPro
       if (response?.status === 400 || response?.status === 401) {
         setServerError(msg ?? 'Email o contraseña incorrectos')
       } else {
-        setServerError(msg ?? 'Ocurrió un error inesperado. Revisá los logs del backend.')
+        setServerError(msg ?? 'Ocurrió un error inesperado. Intentá de nuevo en unos segundos.')
       }
     },
   })

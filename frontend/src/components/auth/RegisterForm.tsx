@@ -74,7 +74,7 @@ export const RegisterForm = ({ onSwitchToLogin }: RegisterFormProps) => {
       } else if (msg?.toLowerCase().includes('usuario')) {
         setError('username', { message: msg })
       } else {
-        setServerError(msg ?? 'Ocurrió un error inesperado. Revisá los logs del backend.')
+        setServerError(msg ?? 'Ocurrió un error inesperado. Intentá de nuevo en unos segundos.')
       }
     },
   })
