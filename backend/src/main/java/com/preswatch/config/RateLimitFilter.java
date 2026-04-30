@@ -15,16 +15,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RateLimitFilter extends OncePerRequestFilter {
 
-    private static final Set<String> RATE_LIMITED_PATHS = Set.of(
-            "/api/auth/login",
-            "/api/auth/register"
+    private static final Map<String, Integer> RATE_LIMITED_PATHS = Map.of(
+            "/api/auth/login", 10,
+            "/api/auth/register", 10,
+            "/api/auth/forgot-password", 5,
+            "/api/auth/reset-password", 5
     );
 
     private final Cache<String, Bucket> buckets = Caffeine.newBuilder()
@@ -35,13 +37,14 @@ public class RateLimitFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
-        if (!RATE_LIMITED_PATHS.contains(request.getRequestURI())) {
+        Integer capacity = RATE_LIMITED_PATHS.get(request.getRequestURI());
+        if (capacity == null) {
             chain.doFilter(request, response);
             return;
         }
 
-        String key = getClientIp(request);
-        Bucket bucket = buckets.get(key, k -> buildBucket());
+        String key = request.getRequestURI() + ":" + getClientIp(request);
+        Bucket bucket = buckets.get(key, k -> buildBucket(capacity));
 
         if (bucket.tryConsume(1)) {
             chain.doFilter(request, response);
@@ -54,10 +57,10 @@ public class RateLimitFilter extends OncePerRequestFilter {
         }
     }
 
-    private Bucket buildBucket() {
+    private Bucket buildBucket(int capacity) {
         Bandwidth limit = Bandwidth.builder()
-                .capacity(10)
-                .refillGreedy(10, Duration.ofMinutes(1))
+                .capacity(capacity)
+                .refillGreedy(capacity, Duration.ofMinutes(1))
                 .build();
         return Bucket.builder().addLimit(limit).build();
     }

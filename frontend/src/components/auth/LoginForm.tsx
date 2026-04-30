@@ -21,9 +21,10 @@ type FormData = z.infer<typeof schema>
 
 interface LoginFormProps {
   onSwitchToRegister: () => void
+  onForgotPassword: () => void
 }
 
-export const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
+export const LoginForm = ({ onSwitchToRegister, onForgotPassword }: LoginFormProps) => {
   const navigate = useNavigate()
   const loginStore = useAuthStore((s) => s.login)
   const toastSuccess = useToastStore((s) => s.success)
@@ -81,16 +82,25 @@ export const LoginForm = ({ onSwitchToRegister }: LoginFormProps) => {
       <Button type="submit" loading={mutation.isPending} fullWidth className="mt-2">
         Iniciar sesión
       </Button>
-      <p className="text-center text-sm text-content-muted">
-        ¿No tenés cuenta?{' '}
+      <div className="flex flex-col items-center gap-2">
         <button
           type="button"
-          onClick={onSwitchToRegister}
-          className="text-accent font-medium hover:underline"
+          onClick={onForgotPassword}
+          className="text-sm text-content-muted hover:text-accent transition-colors"
         >
-          Crear una
+          ¿Olvidaste tu contraseña?
         </button>
-      </p>
+        <p className="text-center text-sm text-content-muted">
+          ¿No tenés cuenta?{' '}
+          <button
+            type="button"
+            onClick={onSwitchToRegister}
+            className="text-accent font-medium hover:underline"
+          >
+            Crear una
+          </button>
+        </p>
+      </div>
     </form>
   )
 }
