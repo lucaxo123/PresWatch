@@ -11,14 +11,7 @@ import { useToastStore } from '../../stores/toastStore'
 import { Input } from '../ui/Input'
 import { PasswordInput } from '../ui/PasswordInput'
 import { Button } from '../ui/Button'
-
-const passwordSchema = z
-  .string()
-  .min(8, 'Mínimo 8 caracteres')
-  .regex(/[A-Z]/, 'Debe incluir al menos una mayúscula')
-  .regex(/[a-z]/, 'Debe incluir al menos una minúscula')
-  .regex(/\d/, 'Debe incluir al menos un número')
-  .regex(/[^a-zA-Z\d]/, 'Debe incluir al menos un carácter especial (!@#$%...)')
+import { passwordSchema } from '../../utils/validation'
 
 const schema = z.object({
   email: z.string().email('Ingresá un email válido'),
