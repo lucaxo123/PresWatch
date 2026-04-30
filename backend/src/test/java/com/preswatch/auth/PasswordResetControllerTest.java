@@ -3,6 +3,9 @@ package com.preswatch.auth;
 import com.preswatch.IntegrationTestBase;
 import com.preswatch.auth.passwordreset.PasswordResetToken;
 import com.preswatch.auth.passwordreset.PasswordResetTokenRepository;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,8 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.OffsetDateTime;
 import java.util.Base64;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +31,12 @@ class PasswordResetControllerTest extends IntegrationTestBase {
 
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
+
+    @BeforeEach
+    void stubMailSender() {
+        when(javaMailSender.createMimeMessage())
+                .thenReturn(new MimeMessage(Session.getInstance(new Properties())));
+    }
 
     @Test
     void forgotPasswordWithExistingEmailReturns200AndPersistsToken() throws Exception {
