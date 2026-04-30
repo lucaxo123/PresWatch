@@ -4,6 +4,7 @@ import { Target, PieChart, ShieldCheck, Wallet } from 'lucide-react'
 import { useAuthStore } from '../stores/authStore'
 import { LoginForm } from '../components/auth/LoginForm'
 import { RegisterForm } from '../components/auth/RegisterForm'
+import { ForgotPasswordForm } from '../components/auth/ForgotPasswordForm'
 import { ThemeToggle } from '../components/ui/ThemeToggle'
 
 const features = [
@@ -25,7 +26,7 @@ const features = [
 ]
 
 export const AuthPage = () => {
-  const [mode, setMode] = useState<'login' | 'register'>('login')
+  const [mode, setMode] = useState<'login' | 'register' | 'forgot-password'>('login')
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
 
   if (isAuthenticated) return <Navigate to="/app/resumen" replace />
@@ -95,19 +96,28 @@ export const AuthPage = () => {
           <div className="w-full max-w-sm">
             <div className="mb-6">
               <h2 className="text-2xl font-semibold text-content-primary tracking-tight">
-                {mode === 'login' ? 'Bienvenido de nuevo' : 'Crear una cuenta'}
+                {mode === 'login' && 'Bienvenido de nuevo'}
+                {mode === 'register' && 'Crear una cuenta'}
+                {mode === 'forgot-password' && '¿Olvidaste tu contraseña?'}
               </h2>
               <p className="text-sm text-content-muted mt-1">
-                {mode === 'login'
-                  ? 'Ingresá con tu email para continuar.'
-                  : 'Registrate para empezar a controlar tus gastos.'}
+                {mode === 'login' && 'Ingresá con tu email para continuar.'}
+                {mode === 'register' && 'Registrate para empezar a controlar tus gastos.'}
+                {mode === 'forgot-password' && 'Te enviamos un link para recuperar el acceso.'}
               </p>
             </div>
 
-            {mode === 'login' ? (
-              <LoginForm onSwitchToRegister={() => setMode('register')} />
-            ) : (
+            {mode === 'login' && (
+              <LoginForm
+                onSwitchToRegister={() => setMode('register')}
+                onForgotPassword={() => setMode('forgot-password')}
+              />
+            )}
+            {mode === 'register' && (
               <RegisterForm onSwitchToLogin={() => setMode('login')} />
+            )}
+            {mode === 'forgot-password' && (
+              <ForgotPasswordForm onBackToLogin={() => setMode('login')} />
             )}
           </div>
         </div>

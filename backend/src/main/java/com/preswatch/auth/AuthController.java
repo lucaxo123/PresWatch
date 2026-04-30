@@ -1,8 +1,11 @@
 package com.preswatch.auth;
 
 import com.preswatch.auth.dto.AuthResponse;
+import com.preswatch.auth.dto.ForgotPasswordRequest;
 import com.preswatch.auth.dto.LoginRequest;
 import com.preswatch.auth.dto.RegisterRequest;
+import com.preswatch.auth.dto.ResetPasswordRequest;
+import com.preswatch.auth.passwordreset.PasswordResetService;
 import com.preswatch.common.SecurityUtils;
 import com.preswatch.user.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
@@ -59,5 +63,19 @@ public class AuthController {
             HttpServletResponse response) {
         authService.logout(request, response);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, String>> forgotPassword(
+            @Valid @RequestBody ForgotPasswordRequest request) {
+        passwordResetService.requestReset(request.email());
+        return ResponseEntity.ok(Map.of("message", "Si el email está registrado, recibirás un link para restablecer tu contraseña."));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(
+            @Valid @RequestBody ResetPasswordRequest request) {
+        passwordResetService.resetPassword(request.token(), request.newPassword());
+        return ResponseEntity.ok(Map.of("message", "Contraseña restablecida correctamente."));
     }
 }

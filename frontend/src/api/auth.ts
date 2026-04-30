@@ -34,3 +34,11 @@ export const logout = async (): Promise<void> => {
     // Best-effort — clear client state regardless of server response
   })
 }
+
+export const forgotPassword = async (email: string): Promise<void> => {
+  await client.post('/auth/forgot-password', { email })
+}
+
+export const resetPassword = async (token: string, newPassword: string): Promise<void> => {
+  await client.post('/auth/reset-password', { token, newPassword })
+}

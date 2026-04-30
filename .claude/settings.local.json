@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(grep -E \"\\\\.\\(json|md|ts|js|yaml|yml\\)$\")",
-      "Bash(git -C /c/Users/luca-/OneDrive/Documents/PersonalProyects/PresWatch/PresWatch log --oneline -10)",
-      "Bash(git -C /c/Users/luca-/OneDrive/Documents/PersonalProyects/PresWatch/PresWatch status)"
-    ]
-  }
-}
