@@ -184,7 +184,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/lucacamano/preswatch-backend
+          images: ghcr.io/${{ github.repository_owner }}/preswatch-backend
           tags: |
             type=sha,prefix=sha-,format=short
             type=ref,event=branch
@@ -226,7 +226,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/lucacamano/preswatch-frontend
+          images: ghcr.io/${{ github.repository_owner }}/preswatch-frontend
           tags: |
             type=sha,prefix=sha-,format=short
             type=ref,event=branch
