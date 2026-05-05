@@ -1,0 +1,11 @@
+services:
+  backend:
+    build: !reset null
+    image: ghcr.io/lucaxo123/preswatch-backend:${TAG:-develop}
+
+  frontend:
+    build: !reset null
+    image: ghcr.io/lucaxo123/preswatch-frontend:${TAG:-develop}
+    volumes: !override []
+    ports: !override
+      - "5173:80"
